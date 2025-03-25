@@ -5,16 +5,12 @@ import jakarta.persistence.*;
 import java.util.List;
 
 public class GenericDaoImpl<T> implements GenericDAO<T> {
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
     private final Class<T> entityClass;
 
-    public GenericDaoImpl(Class<T> entityClass) {
+    public GenericDaoImpl(Class<T> entityClass, EntityManager entityManager) {
         this.entityClass = entityClass;
-        try (EntityManagerFactory emf = Persistence.createEntityManagerFactory("BookPU")) {
-            this.entityManager = emf.createEntityManager();
-        } catch (PersistenceException ex) {
-            ex.printStackTrace();
-        }
+        this.entityManager = entityManager;
     }
 
     @Override
