@@ -97,4 +97,24 @@ public class BookStoreManager {
             System.out.println("-------------");
         }
     }
+
+    public static void booksByTitle(BookDAO bookDAO, String title) {
+        List<Book> books = bookDAO.findByTitle(title);
+
+        if (books.isEmpty()) {
+            System.out.println("--------------");
+            System.out.println("No books found");
+            System.out.println("--------------");
+            return;
+        }
+
+        for (Book book : books) {
+            System.out.println("------------------------------------");
+            System.out.println(book.getTitle());
+            System.out.println("Written by: " + book.getAuthor().getName());
+            System.out.println("Release year: " + book.getYear());
+            System.out.println("Genre: " + book.getGenre());
+        }
+        System.out.println("------------------------------------");
+    }
 }

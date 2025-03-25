@@ -59,10 +59,20 @@ public class App {
                         booksByGenre(bookDAO, genre);
                         break;
                     case 6:
+                        System.out.print("Enter title: ");
+                        String title = scanner.nextLine();
+                        booksByTitle(bookDAO, title);
+                        break;
+                    case 7:
                         em.close();
                         emf.close();
                         scanner.close();
                         System.exit(0);
+                    default:
+                        System.out.println("-----------------");
+                        System.out.println("Invalid option!!!");
+                        System.out.println("-----------------");
+                        break;
                 }
             } while (true);
         } catch (PersistenceException ex) {
@@ -76,7 +86,8 @@ public class App {
         System.out.println("3. Show book details");
         System.out.println("4. Find books by author");
         System.out.println("5. Find books by genre");
-        System.out.println("6. Exit");
+        System.out.println("6. Find books by title");
+        System.out.println("7. Exit");
         System.out.print("Enter option: ");
     }
 }

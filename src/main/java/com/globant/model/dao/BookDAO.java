@@ -15,10 +15,10 @@ public class BookDAO extends GenericDaoImpl<Book> {
 
     public List<Book> findByAuthorName(String authorName) {
         TypedQuery<Book> byAuthor = entityManager.createQuery(
-                "SELECT b FROM Book b WHERE b.author.name ILIKE %:authorName%",
+                "SELECT b FROM Book b WHERE b.author.name ILIKE :authorName",
                 Book.class
         );
-        byAuthor.setParameter("authorName", authorName);
+        byAuthor.setParameter("authorName", "%" + authorName + "%");
         return byAuthor.getResultList();
     }
 
@@ -29,5 +29,14 @@ public class BookDAO extends GenericDaoImpl<Book> {
         );
         byGenre.setParameter("genre", genre);
         return byGenre.getResultList();
+    }
+
+    public List<Book> findByTitle(String title) {
+        TypedQuery<Book> byTitle = entityManager.createQuery(
+                "SELECT b FROM Book b WHERE b.title ILIKE :title",
+                Book.class
+        );
+        byTitle.setParameter("title", "%" + title + "%");
+        return byTitle.getResultList();
     }
 }
