@@ -1,4 +1,4 @@
-package com.globant.model;
+package com.globant.model.base;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
