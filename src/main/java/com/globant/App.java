@@ -1,6 +1,5 @@
 package com.globant;
 
-import com.globant.config.DataInitializer;
 import com.globant.model.dao.AuthorDAO;
 import com.globant.model.dao.BookDAO;
 import jakarta.persistence.EntityManager;
@@ -19,8 +18,6 @@ public class App {
         try (Scanner scanner = new Scanner(System.in);
              EntityManagerFactory emf = Persistence.createEntityManagerFactory("BookPU");
              EntityManager em = emf.createEntityManager()) {
-
-            new DataInitializer(em).init();
 
             BookDAO bookDAO = new BookDAO(em);
             AuthorDAO authorDAO = new AuthorDAO(em);
