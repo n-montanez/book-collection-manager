@@ -13,7 +13,7 @@ public class BookStoreManager {
         System.out.println("------------------------------------");
         System.out.println("All available authors: ");
         for (Author author : authorDAO.findAll()) {
-            System.out.println(author.getAuthorId() + " - " + author.getName());
+            System.out.println(author.getId() + " - " + author.getName());
         }
         System.out.println("------------------------------------");
     }
