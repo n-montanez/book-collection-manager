@@ -1,5 +1,8 @@
 package com.globant;
 
+import com.globant.config.DataInitializer;
+import com.globant.model.base.Author;
+import com.globant.model.base.Book;
 import com.globant.model.dao.AuthorDAO;
 import com.globant.model.dao.BookDAO;
 import jakarta.persistence.EntityManager;
@@ -19,6 +22,8 @@ public class App {
              EntityManagerFactory emf = Persistence.createEntityManagerFactory("BookPU");
              EntityManager em = emf.createEntityManager()) {
 
+            new DataInitializer(em).init();
+
             BookDAO bookDAO = new BookDAO(em);
             AuthorDAO authorDAO = new AuthorDAO(em);
 
@@ -29,11 +34,15 @@ public class App {
                 switch (option) {
                     case 1:
                         System.out.println("All available books: ");
-                        System.out.println(bookDAO.findAll());
+                        for (Book book : bookDAO.findAll()) {
+                            System.out.println(book.toString());
+                        }
                         break;
                     case 2:
                         System.out.println("All available authors: ");
-                        System.out.println(authorDAO.findAll());
+                        for (Author author : authorDAO.findAll()) {
+                            System.out.println(author.toString());
+                        }
                         break;
                     case 3:
                         em.close();
