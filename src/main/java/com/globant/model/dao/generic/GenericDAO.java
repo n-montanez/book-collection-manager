@@ -1,4 +1,4 @@
-package com.globant.model.dao;
+package com.globant.model.dao.generic;
 
 import java.util.List;
 
