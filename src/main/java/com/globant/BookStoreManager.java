@@ -41,6 +41,27 @@ public class BookStoreManager {
         System.out.println("------------------------------------");
     }
 
+    public static void printAuthorDetails(AuthorDAO authorDAO, long id) {
+        Author author = authorDAO.findById(id);
+
+        if (author == null) {
+            System.out.println("Author " + id + " was not found");
+            return;
+        }
+
+        System.out.println("------------------------------------");
+        System.out.println(author.getName());
+
+        for (Book book : author.getBooks()) {
+            System.out.println("------------------------------------");
+            System.out.println(book.getTitle());
+            System.out.println("Written by: " + book.getAuthor().getName());
+            System.out.println("Release year: " + book.getYear());
+            System.out.println("Genre: " + book.getGenre());
+        }
+        System.out.println("------------------------------------");
+    }
+
     public static void printAvailableGenres() {
         System.out.println("------------------------------------");
         System.out.println("Available genres: ");

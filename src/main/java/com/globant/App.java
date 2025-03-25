@@ -41,26 +41,32 @@ public class App {
                     case 3:
                         printBookList(bookDAO);
                         System.out.print("Enter book id: ");
-                        long id = scanner.nextLong();
-                        printBookDetails(bookDAO, id);
+                        long bookId = scanner.nextLong();
+                        printBookDetails(bookDAO, bookId);
                         break;
                     case 4:
+                        printAuthorList(authorDAO);
+                        System.out.print("Enter author id: ");
+                        long authorId = scanner.nextLong();
+                        printAuthorDetails(authorDAO, authorId);
+                        break;
+                    case 5:
                         System.out.print("Enter author name: ");
                         String authorName = scanner.nextLine();
                         booksByAuthor(bookDAO, authorName);
                         break;
-                    case 5:
+                    case 6:
                         printAvailableGenres();
                         System.out.print("Enter genre: ");
                         String genre = scanner.nextLine();
                         booksByGenre(bookDAO, genre);
                         break;
-                    case 6:
+                    case 7:
                         System.out.print("Enter title: ");
                         String title = scanner.nextLine();
                         booksByTitle(bookDAO, title);
                         break;
-                    case 7:
+                    case 8:
                         em.close();
                         emf.close();
                         scanner.close();
@@ -81,10 +87,11 @@ public class App {
         System.out.println("1. List books");
         System.out.println("2. List authors");
         System.out.println("3. Show book details");
-        System.out.println("4. Find books by author");
-        System.out.println("5. Find books by genre");
-        System.out.println("6. Find books by title");
-        System.out.println("7. Exit");
+        System.out.println("4. Show author details");
+        System.out.println("5. Find books by author");
+        System.out.println("6. Find books by genre");
+        System.out.println("7. Find books by title");
+        System.out.println("8. Exit");
         System.out.print("Enter option: ");
     }
 }
