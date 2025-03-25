@@ -67,6 +67,18 @@ public class App {
                         booksByTitle(bookDAO, title);
                         break;
                     case 8:
+                        System.out.println("----- Dynamic search -----");
+                        System.out.println("Enter information or leave empty: ");
+                        System.out.print("Author name: ");
+                        String searchAuthorName = scanner.nextLine();
+                        System.out.print("Book title: ");
+                        String searchBookTitle = scanner.nextLine();
+                        printAvailableGenres();
+                        System.out.print("Genre: ");
+                        String searchGenre = scanner.nextLine();
+                        bookDynamicSearch(bookDAO, searchAuthorName, searchBookTitle, searchGenre);
+                        break;
+                    case 9:
                         em.close();
                         emf.close();
                         scanner.close();
@@ -91,7 +103,8 @@ public class App {
         System.out.println("5. Find books by author");
         System.out.println("6. Find books by genre");
         System.out.println("7. Find books by title");
-        System.out.println("8. Exit");
+        System.out.println("8. Dynamic search");
+        System.out.println("9. Exit");
         System.out.print("Enter option: ");
     }
 }

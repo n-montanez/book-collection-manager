@@ -138,4 +138,37 @@ public class BookStoreManager {
         }
         System.out.println("------------------------------------");
     }
+
+    public static void bookDynamicSearch(BookDAO bookDAO, String authorName, String title, String genre) {
+        Genre genreValue = null;
+        if (genre != null && !genre.isEmpty()) {
+            try {
+                genreValue = Genre.valueOf(genre.toUpperCase());
+            } catch (IllegalArgumentException ex) {
+                System.out.println("-----------------------------");
+                System.out.println("Ignoring Genre. Invalid value");
+                System.out.println("-----------------------------");
+            }
+        }
+
+        List<Book> books = bookDAO.search(authorName, title, genreValue);
+
+        if (books.isEmpty()) {
+            System.out.println("--------------");
+            System.out.println("No books found");
+            System.out.println("--------------");
+            return;
+        }
+
+        for (Book book : books) {
+            System.out.println("------------------------------------");
+            System.out.println(book.getTitle());
+            System.out.println("Written by: " + book.getAuthor().getName());
+            System.out.println("Release year: " + book.getYear());
+            System.out.println("Genre: " + book.getGenre());
+        }
+        System.out.println("------------------------------------");
+        System.out.println("Result gave: " + books.size() + " books");
+        System.out.println("------------------------------------");
+    }
 }

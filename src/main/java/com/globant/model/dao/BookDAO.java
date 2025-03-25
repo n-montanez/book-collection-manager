@@ -1,11 +1,14 @@
 package com.globant.model.dao;
 
+import com.globant.model.base.Author;
 import com.globant.model.base.Book;
 import com.globant.model.base.Genre;
 import com.globant.model.dao.generic.GenericDaoImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookDAO extends GenericDaoImpl<Book> {
@@ -38,5 +41,27 @@ public class BookDAO extends GenericDaoImpl<Book> {
         );
         byTitle.setParameter("title", "%" + title + "%");
         return byTitle.getResultList();
+    }
+
+    public List<Book> search(String authorName, String bookTitle, Genre genre) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Book> query = cb.createQuery(Book.class);
+        Root<Book> bookRoot = query.from(Book.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (authorName != null && !authorName.isEmpty()) {
+            Join<Book, Author> author = bookRoot.join("author");
+            predicates.add(cb.like(cb.lower(author.get("name")), "%" + authorName.toLowerCase() + "%"));
+        }
+        if (bookTitle != null && !bookTitle.isEmpty()) {
+            predicates.add(cb.like(bookRoot.get("title"), "%" + bookTitle + "%"));
+        }
+        if (genre != null) {
+            predicates.add(cb.equal(bookRoot.get("genre"), genre));
+        }
+
+        query.select(bookRoot).where(cb.and(predicates.toArray(new Predicate[0])));
+        return entityManager.createQuery(query).getResultList();
     }
 }
