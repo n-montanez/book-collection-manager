@@ -9,15 +9,13 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Scanner;
 
+@Slf4j
 public class App {
     public static void main(String[] args) {
-        System.out.println("-------------------------");
-        System.out.println("Welcome to the Book Store");
-        System.out.println("-------------------------");
-
         try (Scanner scanner = new Scanner(System.in);
              EntityManagerFactory emf = Persistence.createEntityManagerFactory("BookPU");
              EntityManager em = emf.createEntityManager()) {
@@ -26,6 +24,10 @@ public class App {
 
             BookDAO bookDAO = new BookDAO(em);
             AuthorDAO authorDAO = new AuthorDAO(em);
+
+            System.out.println("-------------------------");
+            System.out.println("Welcome to the Book Store");
+            System.out.println("-------------------------");
 
             do {
                 printMenu();
@@ -52,7 +54,7 @@ public class App {
                 }
             } while (true);
         } catch (PersistenceException ex) {
-            ex.printStackTrace();
+            log.error("Persistence Unit Error: {}", ex.getMessage());
         }
     }
 
