@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import java.util.List;
 
 public class GenericDaoImpl<T> implements GenericDAO<T> {
-    private final EntityManager entityManager;
-    private final Class<T> entityClass;
+    protected final EntityManager entityManager;
+    protected final Class<T> entityClass;
 
     public GenericDaoImpl(Class<T> entityClass, EntityManager entityManager) {
         this.entityClass = entityClass;

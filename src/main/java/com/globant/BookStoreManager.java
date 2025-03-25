@@ -6,6 +6,8 @@ import com.globant.model.base.Genre;
 import com.globant.model.dao.AuthorDAO;
 import com.globant.model.dao.BookDAO;
 
+import java.util.List;
+
 public class BookStoreManager {
     public static void printAuthorList(AuthorDAO authorDAO) {
         System.out.println("------------------------------------");
@@ -49,10 +51,50 @@ public class BookStoreManager {
     }
 
     public static void booksByAuthor(BookDAO bookDAO, String authorName) {
-        // TODO: Add custom query
+        List<Book> books = bookDAO.findByAuthorName(authorName);
+
+        if (books.isEmpty()) {
+            System.out.println("--------------");
+            System.out.println("No books found");
+            System.out.println("--------------");
+            return;
+        }
+
+        for (Book book : books) {
+            System.out.println("------------------------------------");
+            System.out.println(book.getTitle());
+            System.out.println("Written by: " + book.getAuthor().getName());
+            System.out.println("Release year: " + book.getYear());
+            System.out.println("Genre: " + book.getGenre());
+        }
+        System.out.println("------------------------------------");
     }
 
     public static void booksByGenre(BookDAO bookDAO, String genre) {
-        // TODO: Add custom query
+        try {
+            Genre genreValue = Genre.valueOf(genre.toUpperCase());
+
+            List<Book> books = bookDAO.findByGenre(genreValue);
+
+            if (books.isEmpty()) {
+                System.out.println("--------------");
+                System.out.println("No books found");
+                System.out.println("--------------");
+                return;
+            }
+
+            for (Book book : books) {
+                System.out.println("------------------------------------");
+                System.out.println(book.getTitle());
+                System.out.println("Written by: " + book.getAuthor().getName());
+                System.out.println("Release year: " + book.getYear());
+                System.out.println("Genre: " + book.getGenre());
+            }
+            System.out.println("------------------------------------");
+        } catch (IllegalArgumentException ex) {
+            System.out.println("-------------");
+            System.out.println("Invalid genre");
+            System.out.println("-------------");
+        }
     }
 }
