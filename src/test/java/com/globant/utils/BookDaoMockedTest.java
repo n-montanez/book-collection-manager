@@ -16,8 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @Slf4j
@@ -59,6 +58,7 @@ public class BookDaoMockedTest {
 
     @Test
     public void testFindByAuthorName() {
+        // Mock query for books with author name like "rOwLIng"
         when(entityManager.createQuery(anyString(), eq(Book.class))).thenReturn(typedQuery);
         when(typedQuery.setParameter(eq("authorName"), anyString())).thenReturn(typedQuery);
         when(typedQuery.getResultList()).thenReturn(
@@ -78,5 +78,61 @@ public class BookDaoMockedTest {
         );
 
         Assertions.assertTrue(expectedTitles.containsAll(TestUtils.getBookTitles(books)));
+    }
+
+    @Test
+    public void testFindByBookTitle() {
+        // Mock query for books with title like "hArry PoTTer"
+        when(entityManager.createQuery(anyString(), eq(Book.class))).thenReturn(typedQuery);
+        when(typedQuery.setParameter(eq("title"), anyString())).thenReturn(typedQuery);
+        when(typedQuery.getResultList()).thenReturn(
+                mockBooks.stream().filter(b -> b.getTitle().contains("Harry Potter")).toList()
+        );
+
+        List<Book> books = bookDAO.findByTitle("hArry PoTTer");
+
+        Assertions.assertFalse(books.isEmpty());
+        Assertions.assertEquals(3, books.size());
+
+        List<String> expectedTitles = Arrays.asList(
+                "Harry Potter and the Philosopher's stone",
+                "Harry Potter and the Chamber of Secrets",
+                "Harry Potter and the Prisoner of Azkaban"
+        );
+
+        Assertions.assertTrue(expectedTitles.containsAll(TestUtils.getBookTitles(books)));
+    }
+
+    @Test
+    public void testFindByGenre() {
+        // Mock query for books with genre MYSTERY
+        when(entityManager.createQuery(anyString(), eq(Book.class))).thenReturn(typedQuery);
+        when(typedQuery.setParameter(eq("genre"), any(Genre.class))).thenReturn(typedQuery);
+        when(typedQuery.getResultList()).thenReturn(
+                mockBooks.stream().filter(b -> b.getGenre() == Genre.MYSTERY).toList()
+        );
+
+        List<Book> books = bookDAO.findByGenre(Genre.MYSTERY);
+
+        Assertions.assertFalse(books.isEmpty());
+        Assertions.assertEquals(1, books.size());
+
+        List<String> expectedTitles = List.of(
+                "The Casual Vacancy"
+        );
+
+        Assertions.assertTrue(expectedTitles.containsAll(TestUtils.getBookTitles(books)));
+    }
+
+    @Test
+    public void findByEmptyGenre() {
+        // Mock query for books with genre SCIENCE which has no books
+        when(entityManager.createQuery(anyString(), eq(Book.class))).thenReturn(typedQuery);
+        when(typedQuery.setParameter(eq("genre"), any(Genre.class))).thenReturn(typedQuery);
+        when(typedQuery.getResultList()).thenReturn(List.of());
+
+        List<Book> books = bookDAO.findByGenre(Genre.SCIENCE);
+
+        Assertions.assertTrue(books.isEmpty());
     }
 }
