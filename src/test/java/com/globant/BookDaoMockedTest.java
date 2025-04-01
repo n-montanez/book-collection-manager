@@ -1,9 +1,10 @@
-package com.globant.utils;
+package com.globant;
 
 import com.globant.model.base.Author;
 import com.globant.model.base.Book;
 import com.globant.model.base.Genre;
 import com.globant.model.dao.BookDAO;
+import com.globant.utils.TestUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.extern.slf4j.Slf4j;
